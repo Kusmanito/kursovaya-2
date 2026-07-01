@@ -4,16 +4,16 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class AdminMiddleware
 {
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next): Response
     {
-        // Временно разрешаем всем (потом поменяем на проверку email)
-        if (auth()->check() && auth()->user()->email === 'admin@test.ru') {
+        if (auth()->check() && auth()->user()->isAdmin()) {
             return $next($request);
         }
-        
+
         abort(403, 'Доступ запрещён');
     }
 }

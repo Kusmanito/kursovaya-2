@@ -10,7 +10,9 @@ WORKDIR /var/www/html
 COPY . .
 
 RUN composer install --no-dev --optimize-autoloader
-RUN npm install && npm run build
+RUN npm install
+RUN npm run build
+RUN ls -la public/build
 
 RUN a2enmod rewrite
 RUN chown -R www-data:www-data storage bootstrap/cache database
